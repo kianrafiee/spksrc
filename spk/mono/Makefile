@@ -1,6 +1,6 @@
 SPK_NAME = mono
-SPK_VERS = 4.6.2.7
-SPK_REV = 8
+SPK_VERS = 5.8.0.22
+SPK_REV = 9
 SPK_ICON = src/mono.png
 BETA = 1
 
@@ -10,7 +10,7 @@ MAINTAINER = SynoCommunity
 DESCRIPTION = Cross platform, open source .NET development framework
 DISPLAY_NAME = Mono
 STARTABLE = no
-CHANGELOG = "Update to 4.6.2.7"
+CHANGELOG = "Update to 5.8.0.22"
 
 HOMEPAGE = http://mono-project.com
 LICENSE  = http://www.mono-project.com/docs/faq/licensing
