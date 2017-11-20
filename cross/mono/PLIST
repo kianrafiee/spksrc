@@ -68,6 +68,7 @@ lib:lib/libmono-2.0.so.1.0.0
 lnk:lib/libmonoboehm-2.0.so
 lnk:lib/libmonoboehm-2.0.so.1
 lib:lib/libmonoboehm-2.0.so.1.0.0
+lib:lib/libmono-btls-shared.so
 lib:lib/libMonoPosixHelper.so
 lnk:lib/libmono-profiler-aot.so
 lnk:lib/libmono-profiler-aot.so.0
