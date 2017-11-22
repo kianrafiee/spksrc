@@ -23,7 +23,7 @@ postinst ()
     chown -R ${USER}:root ${SYNOPKG_PKGDEST}
 
     # Sync certificate
-    /volume1/@appstore/mono/bin/cert-sync /etc/ssl/certs/ca-certificates.crt
+    /var/packages/mono/target/bin/cert-sync /etc/ssl/certs/ca-certificates.crt
 
     exit 0
 }
@@ -49,7 +49,7 @@ preupgrade ()
 postupgrade ()
 {
     # Sync certificate
-    /volume1/@appstore/mono/bin/cert-sync /etc/ssl/certs/ca-certificates.crt
+    /var/packages/mono/target/bin/cert-sync /etc/ssl/certs/ca-certificates.crt
 
     exit 0
 }
