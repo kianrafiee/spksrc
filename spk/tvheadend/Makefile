@@ -1,43 +1,39 @@
-SPK_NAME    = tvheadend
-SPK_VERS    = 4.2.4
-SPK_REV     = 12
-SPK_ICON    = src/tvheadend.png
-DSM_UI_DIR  = app
-BETA        = 1
+SPK_NAME = tvheadend
+SPK_VERS = 4.2.4
+SPK_REV = 12
+SPK_ICON = src/tvheadend.png
+DSM_UI_DIR = app
+BETA = 1
 
-# DEPENDS = cross/busybox cross/$(SPK_NAME)
 DEPENDS = cross/$(SPK_NAME)
 
-MAINTAINER   = m4tt075
-DESCRIPTION  = Tvheadend is a TV streaming server and recorder for Linux, FreeBSD and Android supporting DVB-S, DVB-S2, DVB-C, DVB-T, ATSC, ISDB-T, IPTV, SAT IP and HDHomeRun as input sources. Tvheadend offers HTTP, HTSP and SAT IP streaming.
-# ADMIN_PORT = 9981
-RELOAD_UI    = yes
+MAINTAINER = m4tt075
+DESCRIPTION = Tvheadend is a TV streaming server and recorder for Linux, FreeBSD and Android supporting DVB-S, DVB-S2, DVB-C, DVB-T, ATSC, ISDB-T, IPTV, SAT IP and HDHomeRun as input sources. Tvheadend offers HTTP, HTSP and SAT IP streaming.
+RELOAD_UI = yes
 DISPLAY_NAME = Tvheadend
-CHANGELOG    = "Update for full DSM6 compliance"
-HOMEPAGE     = https://www.lonelycoder.com/tvheadend/
-LICENSE      = GPL v3
+CHANGELOG = "Update for full DSM6 compliance"
+HOMEPAGE = https://www.lonelycoder.com/tvheadend/
+LICENSE = GPL v3
 
-WIZARDS_DIR  = src/wizard/
-CONF_DIR     = src/conf/
-FWPORTS      = src/${SPK_NAME}.sc
+WIZARDS_DIR = src/wizard/
+CONF_DIR = src/conf/
+FWPORTS = $(CONF_DIR)${SPK_NAME}.sc
+
+# Package-specific port definitions
+HTTP_PORT = 9981
+HTSP_PORT = 9982
 
 # 'auto' reserved value grabs SPK_NAME
-SERVICE_USER         = auto
+SERVICE_USER = auto
 SERVICE_WIZARD_GROUP = wizard_group
 SERVICE_WIZARD_SHARE = wizard_download_dir
-SERVICE_SETUP        = src/service-setup.sh
-# Using standard ports 9981 for http and 9982 for htsp. Adapt SERVICE_COMMAND below if needed
-SERVICE_COMMAND      = '$$\{SYNOPKG_PKGDEST\}/bin/tvheadend.sh 9981 9982 $$\{PID_FILE\}'
+SERVICE_SETUP = src/service-setup.sh
+SERVICE_COMMAND = '$$\{SYNOPKG_PKGDEST\}/bin/tvheadend -f -u $$\{USER\} --http_port $$\{HTTP_PORT\} --htsp_port $$\{HTSP_PORT\} -c $$\{SYNOPKG_PKGDEST\}/var'
+# = '$$\{SYNOPKG_PKGDEST\}/bin/tvheadend $$\{HTTP_PORT\} $$\{HTSP_PORT\} $$\{PID_FILE\}'
 
-# INSTALLER_SCRIPT = src/installer.sh
-# SSS_SCRIPT       = src/dsm-control.sh
-
-# INSTALL_PREFIX = /usr/local/$(SPK_NAME)
 
 PRE_COPY_TARGET = tvheadend_install
-
-# BUSYBOX_CONFIG = usrmng
-# ENV += BUSYBOX_CONFIG="$(BUSYBOX_CONFIG)"
+POST_STRIP_TARGET = tvheadend_extra_install
 
 include ../../mk/spksrc.spk.mk
 
@@ -48,7 +44,10 @@ tvheadend_install:
 	mkdir $(STAGING_DIR)
 	mkdir --parents $(STAGING_INSTALL_PREFIX)
 	install -m 755 -d $(STAGING_INSTALL_PREFIX)/bin
-	install -m 755 src/tvheadend.sh $(STAGING_INSTALL_PREFIX)/bin
+	install -m 755 src/tvheadend.sh $(STAGING_INSTALL_PREFIX)/bin/tvheadend.sh
+
+.PHONY: tvheadend_extra_install
+tvheadend_extra_install:
 	install -m 755 -d $(STAGING_DIR)/app
 	install -m 644 src/app/config $(STAGING_DIR)/app/config
 	install -m 755 -d $(STAGING_DIR)/var
