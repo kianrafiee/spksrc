@@ -14,7 +14,7 @@ COMMENT  = Cross platform, open source .NET development framework
 LICENSE  = http://www.mono-project.com/docs/faq/licensing
 
 REQUIRED_DSM = 5.0
-UNSUPPORTED_ARCHS = $(PPC_ARCHES)
+UNSUPPORTED_ARCHS = 88f6281 $(PPC_ARCHES)
 GNU_CONFIGURE = 1
 
 include ../../mk/spksrc.cross-cc.mk
