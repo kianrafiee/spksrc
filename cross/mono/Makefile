@@ -1,10 +1,10 @@
 PKG_NAME = mono
-PKG_VERS_MAJOR = 5.8.0
-PKG_VERS_MINOR = 22
+PKG_VERS_MAJOR = 5.4.1
+PKG_VERS_MINOR = 6
 PKG_VERS = $(PKG_VERS_MAJOR).$(PKG_VERS_MINOR)
 PKG_EXT = tar.bz2
 PKG_DIST_NAME = $(PKG_NAME)-$(PKG_VERS).$(PKG_EXT)
-PKG_DIST_SITE = http://download.mono-project.com/sources/$(PKG_NAME)
+PKG_DIST_SITE = https://download.mono-project.com/sources/mono
 PKG_DIR = $(PKG_NAME)-$(PKG_VERS)
 
 DEPENDS = native/$(PKG_NAME)
