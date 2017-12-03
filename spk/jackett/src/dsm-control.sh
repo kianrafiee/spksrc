@@ -4,23 +4,26 @@
 PACKAGE="jackett"
 DNAME="Jackett"
 
+BUILDNUMBER="$(/bin/get_key_value /etc.defaults/VERSION buildnumber)"
+SC_USER="sc-jackett"
+LEGACY_USER="jackett"
+USER="$([ "${BUILDNUMBER}" -ge "7321" ] && echo -n ${SC_USER} || echo -n ${LEGACY_USER})"
+
 # Others
 INSTALL_DIR="/usr/local/${PACKAGE}"
-PATH="${INSTALL_DIR}/bin:${PATH}"
-USER="${PACKAGE}"
-USER_HOME="$(eval echo ~$USER)"
-MONO_PATH="/usr/local/mono/bin"
+MONO_PATH="/usr/local/mono/bin/"
+PATH="${INSTALL_DIR}/bin:${MONO_PATH}:${PATH}"
+
 MONO="${MONO_PATH}/mono"
 JACKETT="${INSTALL_DIR}/share/${PACKAGE}/JackettConsole.exe"
-COMMAND="env PATH=${MONO_PATH}:${PATH} LD_LIBRARY_PATH=${INSTALL_DIR}/lib ${MONO} -- --debug ${JACKETT}"
 HOME_DIR="${INSTALL_DIR}/var"
-PID_FILE="${USER_HOME}/jackett.pid"
-LOG_FILE="${USER_HOME}/.config/Jackett/log.txt"
+PID_FILE="${HOME_DIR}/jackett.pid"
+LOG_FILE="${HOME_DIR}/.config/Jackett/log.txt"
+COMMAND="env XDG_CONFIG_HOME=${HOME_DIR} PATH=${PATH} LD_LIBRARY_PATH=${INSTALL_DIR}/lib ${MONO} -- --debug ${JACKETT}"
 
 start_daemon ()
 {
-    export HOME=${USER_HOME} && start-stop-daemon -c ${USER} -Sqbmp ${PID_FILE} -x ${COMMAND} > /dev/null
-    sleep 2
+    start-stop-daemon -c ${USER} -Sqbmp ${PID_FILE} -x ${COMMAND}
 }
 
 stop_daemon ()
